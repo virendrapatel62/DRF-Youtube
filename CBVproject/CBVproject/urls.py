@@ -1,9 +1,9 @@
 
 from django.contrib import admin
-from django.urls import path
-from CBVapp.views import CourseListView
+from django.urls import path , include
+from CBVapp.views import CourseListView , CourseDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("test" , CourseListView.as_view())
+    path('api/', include('CBVapp.urls'))
 ]
