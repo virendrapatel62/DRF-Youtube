@@ -5,6 +5,37 @@ from rest_framework import status
 from django.http import Http404
 from .models import Course, CourseSerializer
 from rest_framework import mixins, generics
+from rest_framework.viewsets import ViewSet, ModelViewSet
+
+
+class CourseViewSet(ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+
+'''
+class CourseViewSet(ViewSet):
+    def list(self, request):
+        courses = Course.objects.all()
+        serializer = CourseSerializer(courses, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def retrieve(self, request, pk):
+        try:
+            course = Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = CourseSerializer(course)
+        return Response(serializer.data)
+
+# viewSet
 
 
 class CourseListView(generics.ListCreateAPIView):
@@ -17,7 +48,7 @@ class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CourseSerializer
 
 
-'''
+
 class CourseDetailView(generics.RetrieveDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
